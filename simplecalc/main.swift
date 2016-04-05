@@ -80,16 +80,6 @@ func readFullOp() -> [String] {
 }
 
 
-// sums elements in array of strings
-func sum(nums : [String]) -> Int {
-    var result = 0
-    for elem in nums {
-        result += elem.intValue!
-    }
-    return result
-}
-
-
 // calculates the result of the given operation
 func calculate(operation : [String]) -> Int {
     var result = Int()
@@ -114,9 +104,13 @@ func calculate(operation : [String]) -> Int {
     } else if operandSet.intersectsSet(operators as Set<NSObject>) { // extended operation
         switch operation.last! {
         case "count":
-            result = sum(Array(operation[0 ..< operation.endIndex - 1]))
+            result = operation.count - 1
         case "avg":
-            result = sum(Array(operation[0 ..< operation.endIndex - 1])) / (operation.count - 1)
+            result = 0
+            for elem in operation[0 ..< operation.endIndex - 1] {
+                result += elem.intValue!
+            }
+            result /= (operation.count - 1)
         case "fact":
             result = 1
             for i in 1 ... operation[0].intValue! {
@@ -138,7 +132,6 @@ repeat {
     input = readFullOp()
     var result = calculate(input)
     
-    //print("-------------------------")
     print("\n\(result)")
     print("-------------------------\n")
 } while input[0] != "exit"
